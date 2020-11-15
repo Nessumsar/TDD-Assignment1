@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.Arrays;
-
 public class Implementation implements IIntArray {
 
     public int[] arr;
@@ -22,56 +20,105 @@ public class Implementation implements IIntArray {
     @Override
     public int[] findPositions(int val) {
         int size = 0;
-        int[] found = {};
+        int counter = 0;
+        int index = 0;
 
-        for(int i=0; i<arr.length; i++){
-            if (arr[i] == val){
-                size++;
-
-            }
-        }
-        int[] test = new int[size];
-
-        for (int j=0; j<size; j++){
-            for (int i : arr) {
-                if (arr[i] == val){
-                    if (test[j] != i){
-                        test[j] = i;
-                    }
-
+            for (int value : arr){
+                if (value == val) {
+                    size++;
                 }
             }
-        }
 
-        for (int i : test) {
-            System.out.println(i);
-        }
+            if (size != 0){
+                int[] found = new int[size];
+                for (int value : arr){
+                    if (value == val){
+                        found[index] = counter;
+                        index++;
+                    }
+                    counter++;
+                }
+                return found;
+            }else{
+                throw new NullPointerException();
+            }
 
-        return test;
+
     }
 
     @Override
     public void appendLast(int value) {
-
+        int[] result = new int[arr.length+1];
+        // for (int i=0; i< arr.length; i++){
+        //     result[i] = arr[i];
+        // }
+        System.arraycopy(arr, 0, result, 0, arr.length);
+        result[result.length-1] = value;
+        arr = result;
     }
 
     @Override
     public void insertAt(int pos, int value) {
-
+        int[] result = new int[arr.length+1];
+        try {
+            for (int i = result.length - 1; i >= 0; i--) {
+                if (i > pos) {
+                    result[i] = arr[i - 1];
+                }
+                if (i == pos) {
+                    result[i] = value;
+                }
+                if (i < pos) {
+                    result[i] = arr[i];
+                }
+            }
+            arr = result;
+        }
+        catch (Exception e){
+            throw new NullPointerException();
+        }
     }
 
     @Override
     public int getAt(int pos) {
-        return 0;
+        try{
+            return arr[pos];
+        }catch (Exception e){
+            throw new NullPointerException();
+        }
     }
 
     @Override
     public void setAt(int pos, int element) {
-
+        try{
+            arr[pos] = element;
+        }catch (Exception e){
+            throw new NullPointerException();
+        }
     }
 
     @Override
     public int deleteAt(int pos) {
-        return 0;
+        int[] result = new int[arr.length-1];
+        int counter = 0;
+        int index = 0;
+        int found = 0;
+
+        try{
+            for (int value : arr){
+                if (index == pos){
+                    found = value;
+                }else{
+                    result[counter] = value;
+                    counter++;
+                }
+                index++;
+            }
+            arr = result;
+            return found;
+        }catch (Exception e){
+            throw new NullPointerException();
+        }
     }
+
 }
